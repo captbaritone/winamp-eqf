@@ -1,5 +1,7 @@
 # Winamp Equalizer Preset Parser
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/captbaritone/winamp-eqf.svg)](https://greenkeeper.io/)
+
 Winamp allows you to save your equalizser settings to `.eqf` file. This package allows you to parse these files.
 
 Starting with this spec found here: <http://www.perlmonks.org/bare/?node_id=584875>:

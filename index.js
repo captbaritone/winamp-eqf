@@ -1,7 +1,7 @@
 const { Parser } = require("binary-parser");
 
 function translateHz(value) {
-  return 64 - value;
+  return 63 - value;
 }
 
 const hzOptions = { formatter: translateHz };

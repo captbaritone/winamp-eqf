@@ -17,10 +17,8 @@
   "license": "ISC",
   "devDependencies": {
     "babel-jest": "^19.0.0",
+    "buffer-to-arraybuffer": "0.0.4",
     "jest": "^19.0.2"
-  },
-  "dependencies": {
-    "binary-parser": "^1.1.5"
   },
   "jest": {
     "transform": {

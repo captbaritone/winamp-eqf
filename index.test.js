@@ -1,6 +1,7 @@
 const { join } = require("path");
 const { readFileSync } = require("fs");
 const parser = require("./");
+var bufferToArrayBuffer = require("buffer-to-arraybuffer");
 
 const fixtures = [
   // All bands max, preamp mid
@@ -21,8 +22,10 @@ const fixtures = [
 describe("parser", () => {
   fixtures.forEach(fileName => {
     const data = readFileSync(join("sample_data", fileName));
+    const arrayBuffer = bufferToArrayBuffer(data);
     it(`can parse ${fileName}`, () => {
-      expect(parser(data)).toMatchSnapshot();
+      const foo = parser(arrayBuffer);
+      expect(foo).toMatchSnapshot();
     });
   });
 });

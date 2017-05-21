@@ -1,35 +1,48 @@
-const { Parser } = require("binary-parser");
+const PRESET_VALUES = [
+  "hz60",
+  "hz170",
+  "hz310",
+  "hz600",
+  "hz1000",
+  "hz3000",
+  "hz6000",
+  "hz12000",
+  "hz14000",
+  "hz16000",
+  "preamp"
+];
 
-function translateHz(value) {
-  return 63 - value;
+const HEADER_LENGTH = 27;
+function parser(arrayBuffer) {
+  const data = {};
+  let i = 0;
+  const arr = new Int8Array(arrayBuffer);
+  // Parse header
+  data.type = String.fromCharCode.apply(null, arr.slice(i, HEADER_LENGTH));
+  i += HEADER_LENGTH;
+  // Skip "<ctrl-z>!--"
+  i += 4;
+  // Get the presets
+  data.presets = [];
+  while (i < arr.length) {
+    const preset = {};
+    // Get the name
+    const start = i;
+    const strEnd = start + 257; // Str is fixed length
+    // Str is null terminated
+    while (arr[i] !== 0 && i < strEnd) {
+      i++;
+    }
+    preset.name = String.fromCharCode.apply(null, arr.slice(start, i));
+    i = strEnd; // Skip over any unused bytes
+
+    // Get the levels
+    PRESET_VALUES.forEach(function(valueName) {
+      preset[valueName] = 64 - arr[i++]; // Adjust for inverse values
+    });
+    data.presets.push(preset);
+  }
+  return data;
 }
 
-const hzOptions = { formatter: translateHz };
-
-var presetParser = new Parser()
-  .string("name", { zeroTerminated: true })
-  .skip(function() {
-    // TODO: In the .q1 files, there is more data here. Not sure what it means.
-    return 256 - this.name.length;
-  })
-  .uint8("hz60", hzOptions)
-  .uint8("hz170", hzOptions)
-  .uint8("hz310", hzOptions)
-  .uint8("hz600", hzOptions)
-  .uint8("hz1000", hzOptions)
-  .uint8("hz3000", hzOptions)
-  .uint8("hz6000", hzOptions)
-  .uint8("hz12000", hzOptions)
-  .uint8("hz14000", hzOptions)
-  .uint8("hz16000", hzOptions)
-  .uint8("preamp", hzOptions);
-
-var parser = new Parser()
-  .string("type", {
-    length: 27,
-    assert: header => header === "Winamp EQ library file v1.1"
-  })
-  .skip(4) // "<ctrl-z>!--"
-  .array("presets", { type: presetParser, readUntil: "eof" });
-
-module.exports = parser.parse.bind(parser);
+module.exports = parser;

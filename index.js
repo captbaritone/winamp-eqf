@@ -12,14 +12,17 @@ const PRESET_VALUES = [
   "preamp"
 ];
 
-const HEADER_LENGTH = 27;
+const HEADER = "Winamp EQ library file v1.1";
 function parser(arrayBuffer) {
   const data = {};
   let i = 0;
   const arr = new Int8Array(arrayBuffer);
   // Parse header
-  data.type = String.fromCharCode.apply(null, arr.slice(i, HEADER_LENGTH));
-  i += HEADER_LENGTH;
+  data.type = String.fromCharCode.apply(null, arr.slice(i, HEADER.length));
+  if (data.type !== HEADER) {
+    throw new Error("Invalid .eqf file.");
+  }
+  i += HEADER.length;
   // Skip "<ctrl-z>!--"
   i += 4;
   // Get the presets
@@ -30,7 +33,7 @@ function parser(arrayBuffer) {
     const start = i;
     const strEnd = start + 257; // Str is fixed length
     // Str is null terminated
-    while (arr[i] !== 0 && i < strEnd) {
+    while (arr[i] !== 0 && i <= strEnd) {
       i++;
     }
     preset.name = String.fromCharCode.apply(null, arr.slice(start, i));

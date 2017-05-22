@@ -2,6 +2,48 @@
 
 Winamp allows you to save your equalizser settings to `.eqf` file. This package allows you to parse these files.
 
+## Installation
+
+    npm install --save winamp-eqf
+
+## Ussage
+
+    import parser from 'winamp-eqf';
+
+    // ... Get your .eqf or .q1 file as an ArrayBuffer
+    const eqf = parser(eqfArrayBuffer);
+
+## API
+
+### `parser(ArrayBuffer)`
+
+#### Return value
+
+```JavaScript
+{
+  "presets": [
+    {
+      "name": "Entry1",
+      "preamp": 33, // 1-64
+      "hz60": 64,   // 1-64
+      "hz170": 64,  // ...
+      "hz310": 64,
+      "hz600": 64,
+      "hz1000": 64,
+      "hz3000": 64,
+      "hz6000": 64,
+      "hz12000": 64,
+      "hz14000": 64,
+      "hz16000": 64,
+    },
+    // Some files, such as winamp.q1, may contain multiple preset objects.
+  ],
+  "type": "Winamp EQ library file v1.1",
+}
+```
+
+## Source Material
+
 Starting with this spec found here: <http://www.perlmonks.org/bare/?node_id=584875>:
 
 > I've taken a look at some EQF files that I made for the purpose. The format is apparently very simple:

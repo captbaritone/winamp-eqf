@@ -30,14 +30,14 @@ function parser(arrayBuffer) {
   while (i < arr.length) {
     const preset = {};
     // Get the name
-    const start = i;
-    const strEnd = start + 257; // Str is fixed length
+    const nameStart = i;
+    const nameEnd = nameStart + 257; // Str is fixed length
     // Str is null terminated
-    while (arr[i] !== 0 && i <= strEnd) {
+    while (arr[i] !== 0 && i <= nameEnd) {
       i++;
     }
-    preset.name = String.fromCharCode.apply(null, arr.slice(start, i));
-    i = strEnd; // Skip over any unused bytes
+    preset.name = String.fromCharCode.apply(null, arr.slice(nameStart, i));
+    i = nameEnd; // Skip over any unused bytes
 
     // Get the levels
     PRESET_VALUES.forEach(function(valueName) {

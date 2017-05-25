@@ -1,4 +1,4 @@
-const PRESET_VALUES = [
+var PRESET_VALUES = [
   "hz60",
   "hz170",
   "hz310",
@@ -12,11 +12,11 @@ const PRESET_VALUES = [
   "preamp"
 ];
 
-const HEADER = "Winamp EQ library file v1.1";
+var HEADER = "Winamp EQ library file v1.1";
 function parser(arrayBuffer) {
-  const data = {};
-  let i = 0;
-  const arr = new Int8Array(arrayBuffer);
+  var data = {};
+  var i = 0;
+  var arr = new Int8Array(arrayBuffer);
   // Parse header
   data.type = String.fromCharCode.apply(null, arr.slice(i, HEADER.length));
   if (data.type !== HEADER) {
@@ -28,10 +28,10 @@ function parser(arrayBuffer) {
   // Get the presets
   data.presets = [];
   while (i < arr.length) {
-    const preset = {};
+    var preset = {};
     // Get the name
-    const nameStart = i;
-    const nameEnd = nameStart + 257; // Str is fixed length
+    var nameStart = i;
+    var nameEnd = nameStart + 257; // Str is fixed length
     // Str is null terminated
     while (arr[i] !== 0 && i <= nameEnd) {
       i++;

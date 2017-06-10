@@ -1,11 +1,11 @@
 {
   "name": "winamp-eqf",
-  "version": "0.1.1",
+  "version": "1.0.0",
   "description": "Parse and create Winamp .EQF files which describe equalizer settings",
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "tdd": "jest --watch "
+    "tdd": "jest --watch"
   },
   "keywords": [
     "winamp",

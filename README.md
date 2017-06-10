@@ -8,10 +8,12 @@ Winamp allows you to save your equalizser settings to `.eqf` file. This package 
 
 ## Ussage
 
-    import parser from 'winamp-eqf';
+    import {parser, creator} from 'winamp-eqf';
 
     // ... Get your .eqf or .q1 file as an ArrayBuffer
     const eqf = parser(eqfArrayBuffer);
+
+    const eqfArrayBuffer = creator(eqf);
 
 ## API
 
@@ -41,6 +43,14 @@ Winamp allows you to save your equalizser settings to `.eqf` file. This package 
   "type": "Winamp EQ library file v1.1",
 }
 ```
+
+### `creator(eqfObject)`
+
+#### Return Value: `ArrayBuffer`
+
+`eqfObject` is an object with the same shape as that returned by `parser()`.
+
+
 
 ## Source Material
 
